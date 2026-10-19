@@ -43,6 +43,13 @@
     background: var(--primary); color: #fff; font-weight: 600; font-size: .95rem;
   }
   a.card:hover .btn { background: var(--primary-hover); }
+  .status { display: inline-flex; align-items: center; gap: 6px; font-size: .85rem;
+            color: var(--muted); align-self: flex-start; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #b0b8b5; }
+  .status.cek .dot { animation: kedip 1s infinite; }
+  .status.online { color: #1f8a4c; } .status.online .dot { background: #22a35a; }
+  .status.offline { color: #c0392b; } .status.offline .dot { background: #e74c3c; }
+  @keyframes kedip { 50% { opacity: .3; } }
   footer { margin-top: 36px; color: var(--muted); font-size: .85rem; text-align: center; max-width: 560px; }
 </style>
 </head>
@@ -57,6 +64,7 @@
       <div class="icon">📊</div>
       <h2>Uji Sampling CEISA vs IT Inventory</h2>
       <p>Penyandingan data CEISA dengan IT Inventory dan pembuatan Excel lampiran hasil uji sampling.</p>
+      <span class="status cek" data-url="https://ujisamplingitinventory.caracal-buri.ts.net/"><span class="dot"></span><span class="teks">Memeriksa server…</span></span>
       <span class="btn">Buka Uji Sampling →</span>
     </a>
 
@@ -64,6 +72,7 @@
       <div class="icon">🗂️</div>
       <h2>Aplikasi Data TPB</h2>
       <p>Pengelolaan dan penelusuran data Tempat Penimbunan Berikat.</p>
+      <span class="status cek" data-url="https://datatpb.caracal-buri.ts.net/"><span class="dot"></span><span class="teks">Memeriksa server…</span></span>
       <span class="btn">Buka Data TPB →</span>
     </a>
   </main>
@@ -71,5 +80,36 @@
   <footer>
     Aplikasi dapat diakses selama server menyala. Jika halaman tidak terbuka, coba lagi beberapa saat kemudian.
   </footer>
+
+<script>
+  // Cek apakah server aplikasi (Chromebook) sedang menyala
+  function batasWaktu(ms) {
+    return new Promise((_, tolak) => setTimeout(() => tolak(new Error("timeout")), ms));
+  }
+  async function cekServer(url) {
+    const alamat = url + "_stcore/health?t=" + Date.now();
+    try {
+      const res = await Promise.race([fetch(alamat, { cache: "no-store" }), batasWaktu(8000)]);
+      return res.ok;
+    } catch (e) {
+      if (e.message === "timeout") return false;
+      // Diblokir CORS: coba lagi mode no-cors (ada jawaban = server hidup)
+      try {
+        await Promise.race([fetch(alamat, { mode: "no-cors", cache: "no-store" }), batasWaktu(8000)]);
+        return true;
+      } catch (_) { return false; }
+    }
+  }
+  async function perbarui() {
+    document.querySelectorAll(".status").forEach(async (el) => {
+      const hidup = await cekServer(el.dataset.url);
+      el.classList.remove("cek", "online", "offline");
+      el.classList.add(hidup ? "online" : "offline");
+      el.querySelector(".teks").textContent = hidup ? "Online" : "Server sedang mati";
+    });
+  }
+  perbarui();
+  setInterval(perbarui, 60000);
+</script>
 </body>
 </html>
