@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aplikasi TPB</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root {
+    --bg: #f4f7f6; --card: #ffffff; --text: #1d2b27; --muted: #5d6f69;
+    --primary: #1f6f5c; --primary-hover: #185a4a; --border: #dde6e3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121a18; --card: #1b2623; --text: #e6efec; --muted: #9db0aa;
+      --primary: #3aa58a; --primary-hover: #4cbb9f; --border: #2a3934;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex; flex-direction: column; align-items: center; padding: 48px 16px;
+  }
+  header { text-align: center; margin-bottom: 32px; }
+  h1 { margin: 0 0 8px; font-size: 2rem; }
+  header p { margin: 0; color: var(--muted); }
+  .grid { display: grid; gap: 20px; width: 100%; max-width: 760px;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  a.card {
+    display: flex; flex-direction: column; gap: 10px; padding: 24px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    text-decoration: none; color: inherit;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  a.card:hover { transform: translateY(-3px); border-color: var(--primary);
+                 box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+  .icon { font-size: 2rem; }
+  .card h2 { margin: 0; font-size: 1.2rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.45; flex: 1; }
+  .btn {
+    align-self: flex-start; margin-top: 6px; padding: 10px 18px; border-radius: 8px;
+    background: var(--primary); color: #fff; font-weight: 600; font-size: .95rem;
+  }
+  a.card:hover .btn { background: var(--primary-hover); }
+  footer { margin-top: 36px; color: var(--muted); font-size: .85rem; text-align: center; max-width: 560px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Aplikasi TPB</h1>
+    <p>Pilih aplikasi yang ingin digunakan</p>
+  </header>
+
+  <main class="grid">
+    <a class="card" href="https://ujisamplingitinventory.caracal-buri.ts.net/" target="_blank" rel="noopener">
+      <div class="icon">📊</div>
+      <h2>Uji Sampling CEISA vs IT Inventory</h2>
+      <p>Penyandingan data CEISA dengan IT Inventory dan pembuatan Excel lampiran hasil uji sampling.</p>
+      <span class="btn">Buka Uji Sampling →</span>
+    </a>
+
+    <a class="card" href="https://datatpb.caracal-buri.ts.net" target="_blank" rel="noopener">
+      <div class="icon">🗂️</div>
+      <h2>Aplikasi Data TPB</h2>
+      <p>Pengelolaan dan penelusuran data Tempat Penimbunan Berikat.</p>
+      <span class="btn">Buka Data TPB →</span>
+    </a>
+  </main>
+
+  <footer>
+    Aplikasi dapat diakses selama server menyala. Jika halaman tidak terbuka, coba lagi beberapa saat kemudian.
+  </footer>
+</body>
+</html>
